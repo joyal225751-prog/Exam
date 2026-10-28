@@ -6,7 +6,14 @@ const platforms = ['Netflix', 'Prime Video', 'Hotstar', 'Theatre', 'Other'];
 const blank = { title: '', genre: 'Drama', releaseYear: new Date().getFullYear(), runtime: 120, platform: 'Netflix', priority: 3 };
 async function api(path, options = {}) {
   const response = await fetch(`/api/movies${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...options.headers }, body: options.body ? JSON.stringify(options.body) : undefined });
-  const result = await response.json(); if (!response.ok) throw new Error(result.message || 'Something went wrong.'); return result.data;
+  const body = await response.text();
+  let result;
+  try { result = JSON.parse(body); }
+  catch {
+    throw new Error(`The API returned a non-JSON response (HTTP ${response.status}). Check that the backend is running on port 5000 and that MongoDB is connected.`);
+  }
+  if (!response.ok) throw new Error(result.message || 'Something went wrong.');
+  return result.data;
 }
 function App() {
   const [movies, setMovies] = useState([]), [stats, setStats] = useState(null), [pageInfo, setPageInfo] = useState({ page: 1, totalPages: 0, total: 0 });
