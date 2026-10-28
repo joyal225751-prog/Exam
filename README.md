@@ -30,6 +30,10 @@ A responsive MERN app for saving movies, tracking viewing progress, rating finis
 
 `backend/.env` is a development configuration only. Replace `MONGODB_URI` with a test database URL when using Atlas; never commit personal or production credentials. `backend/.env.example` is also provided as a template.
 
+## Deployment configuration
+
+For local development, the frontend defaults to `/api/movies` and Vite proxies `/api` to `http://127.0.0.1:5000`. For a separately hosted frontend, set `VITE_API_BASE_URL` to the backend API URL ending in `/api/movies` before building the frontend (for example, `https://your-backend.example.com/api/movies`). Set the backend's `CLIENT_URL` to the hosted frontend's origin so CORS allows requests. A static frontend host does not run the Express API; deploy the backend separately.
+
 ## Screenshots
 
 Screenshots of the running application are included below. The second image shows the responsive layout at a narrower viewport.

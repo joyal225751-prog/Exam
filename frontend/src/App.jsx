@@ -4,13 +4,14 @@ import { Clapperboard, Plus, Search, SlidersHorizontal, Play, Clock3, Star, Film
 const genres = ['Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi', 'Romance', 'Thriller'];
 const platforms = ['Netflix', 'Prime Video', 'Hotstar', 'Theatre', 'Other'];
 const blank = { title: '', genre: 'Drama', releaseYear: new Date().getFullYear(), runtime: 120, platform: 'Netflix', priority: 3 };
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '/api/movies').replace(/\/+$/, '');
 async function api(path, options = {}) {
-  const response = await fetch(`/api/movies${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...options.headers }, body: options.body ? JSON.stringify(options.body) : undefined });
+  const response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...options.headers }, body: options.body ? JSON.stringify(options.body) : undefined });
   const body = await response.text();
   let result;
   try { result = JSON.parse(body); }
   catch {
-    throw new Error(`The API returned a non-JSON response (HTTP ${response.status}). Check that the backend is running on port 5000 and that MongoDB is connected.`);
+    throw new Error(`The API returned a non-JSON response (HTTP ${response.status}). Check VITE_API_BASE_URL and backend routing. For local development, start the backend and MongoDB on port 5000.`);
   }
   if (!response.ok) throw new Error(result.message || 'Something went wrong.');
   return result.data;
