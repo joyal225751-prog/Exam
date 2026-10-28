@@ -63,13 +63,3 @@ Exam/
 ├── screenshots/    # Application screenshots used above
 └── README.md
 ```
-
-## Submission checklist
-
-- [x] Frontend and backend are included.
-- [x] Setup configuration and API documentation are included.
-- [x] Two screenshots of the running application are included in `screenshots/`.
-- [ ] Maintain at least five commits across the exam duration. Existing repository history currently has one commit; do not squash or fabricate exam-time commits.
-- [ ] Implement any change request announced during the exam before submitting.
-
-Submit this repository: https://github.com/joyal225751-prog/Exam
