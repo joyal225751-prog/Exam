@@ -32,7 +32,18 @@ A responsive MERN app for saving movies, tracking viewing progress, rating finis
 
 ## Deployment configuration
 
-For local development, the frontend defaults to `/api/movies` and Vite proxies `/api` to `http://127.0.0.1:5000`. For a separately hosted frontend, set `VITE_API_BASE_URL` to the backend API URL ending in `/api/movies` before building the frontend (for example, `https://your-backend.example.com/api/movies`). Set the backend's `CLIENT_URL` to the hosted frontend's origin so CORS allows requests. A static frontend host does not run the Express API; deploy the backend separately.
+For local development, the frontend defaults to `/api/movies` and Vite proxies `/api` to `http://127.0.0.1:5000`.
+
+### Deploy on Vercel
+
+The frontend and Express backend need separate Vercel projects because the existing frontend deployment serves only the Vite site.
+
+1. Create a second Vercel project from this repository and set its **Root Directory** to `backend`.
+2. In that backend project's **Settings → Environment Variables**, add `MONGODB_URI` with a MongoDB Atlas connection string and `CLIENT_URL` with the frontend origin, such as `https://exam-ngvo.vercel.app`. Do not put Atlas credentials in GitHub.
+3. Deploy the backend project. Check that `https://<backend-project>.vercel.app/api/health` returns JSON.
+4. In the existing frontend Vercel project, add `VITE_API_BASE_URL` with the value `https://<backend-project>.vercel.app/api/movies`, then redeploy the frontend.
+
+Vite embeds `VITE_API_BASE_URL` during the frontend build, so changing it requires a new deployment. Vercel can run an Express app from its project root as a function; see [Vercel's Express deployment guide](https://vercel.com/docs/frameworks/backend/express).
 
 ## Screenshots
 
